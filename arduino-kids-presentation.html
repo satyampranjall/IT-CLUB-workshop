@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 Tech Adventure for Kids!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #0BCEDB;
+    --yellow: #FFD93D;
+    --orange: #FF6B35;
+    --pink: #FF4D8B;
+    --green: #06D6A0;
+    --purple: #845EC2;
+    --bg: #0D1B2A;
+    --card: #122333;
+    --card2: #1a2e44;
+    --text: #F0F8FF;
+    --text2: #a8d4f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='26' font-size='26'>⭐</text></svg>") 16 16, auto;
+  }
+
+  /* ---- STARS BG ---- */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(11,206,219,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(132,94,194,0.12) 0%, transparent 50%);
+    pointer-events:none; z-index:0;
+  }
+  .stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
+  .star { position:absolute; border-radius:50%; background:#fff; animation: twinkle 3s infinite alternate; }
+  @keyframes twinkle { from{opacity:.1;transform:scale(1)} to{opacity:.9;transform:scale(1.4)} }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    background: rgba(13,27,42,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid rgba(11,206,219,0.3);
+    padding: 10px 0;
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--text2); text-decoration:none;
+    font-family:'Fredoka One'; font-size:1rem;
+    padding: 6px 14px; border-radius:999px;
+    border: 1.5px solid transparent;
+    transition: all 0.3s;
+  }
+  nav a:hover, nav a.active {
+    background: var(--sky); color: var(--bg);
+    border-color: var(--sky); transform:scale(1.08);
+  }
+
+  /* ---- SECTIONS ---- */
+  section { position:relative; z-index:1; min-height:100vh; padding: 90px 20px 60px; }
+  .section-inner { max-width: 1100px; margin:0 auto; }
+  .section-title {
+    font-family:'Fredoka One'; font-size:clamp(2.2rem,5vw,3.5rem);
+    text-align:center; margin-bottom:12px;
+    line-height:1.1;
+  }
+  .section-sub {
+    text-align:center; font-size:1.15rem; color:var(--text2);
+    margin-bottom:48px; font-weight:600;
+  }
+
+  /* ---- HERO ---- */
+  #hero {
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; text-align:center;
+    background: radial-gradient(ellipse at center, rgba(11,206,219,0.15) 0%, transparent 70%);
+  }
+  .hero-badge {
+    background: linear-gradient(135deg, var(--sky), var(--purple));
+    color:#fff; font-family:'Fredoka One'; font-size:1rem;
+    padding:6px 22px; border-radius:999px; margin-bottom:20px;
+    display:inline-block; letter-spacing:1px;
+    animation: bounceIn 0.8s ease-out;
+  }
+  .hero-title {
+    font-family:'Fredoka One'; font-size:clamp(3rem,8vw,6rem);
+    line-height:1; margin-bottom:16px;
+    background: linear-gradient(135deg, var(--yellow), var(--orange), var(--pink));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+    animation: bounceIn 1s ease-out;
+  }
+  .hero-sub {
+    font-size:clamp(1.1rem,2.5vw,1.5rem); color:var(--text2);
+    font-weight:700; margin-bottom:40px;
+    animation: fadeUp 1.2s ease-out;
+  }
+  .hero-robot { font-size:120px; line-height:1; animation: robotFloat 3s ease-in-out infinite; margin-bottom:30px; }
+  @keyframes robotFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+
+  .btn-start {
+    display:inline-block; font-family:'Fredoka One'; font-size:1.3rem;
+    background: linear-gradient(135deg, var(--sky), var(--green));
+    color:#000; padding:14px 40px; border-radius:999px;
+    text-decoration:none; border:none; cursor:pointer;
+    box-shadow: 0 8px 30px rgba(11,206,219,0.4);
+    transition:all 0.3s; animation: fadeUp 1.4s ease-out;
+  }
+  .btn-start:hover { transform:scale(1.06) translateY(-3px); box-shadow:0 12px 40px rgba(11,206,219,0.6); }
+
+  @keyframes bounceIn { from{opacity:0;transform:scale(0.7)} to{opacity:1;transform:scale(1)} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ---- CARDS GRID ---- */
+  .cards-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:28px; }
+  .card {
+    background: var(--card);
+    border: 2px solid rgba(11,206,219,0.2);
+    border-radius:24px; padding:28px 24px;
+    transition:all 0.4s;
+    position:relative; overflow:hidden;
+  }
+  .card::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(135deg, rgba(11,206,219,0.06), transparent);
+    opacity:0; transition:opacity 0.3s;
+  }
+  .card:hover { transform:translateY(-8px) scale(1.02); border-color:var(--sky); box-shadow:0 20px 50px rgba(11,206,219,0.2); }
+  .card:hover::before { opacity:1; }
+  .card-icon { font-size:56px; margin-bottom:14px; display:block; }
+  .card-title { font-family:'Fredoka One'; font-size:1.6rem; margin-bottom:8px; }
+  .card-text { font-size:1rem; color:var(--text2); line-height:1.65; }
+
+  /* ---- 3D BOARD VIEWER ---- */
+  .board-scene {
+    perspective: 800px;
+    display:flex; justify-content:center; margin:30px 0;
+  }
+  .board-wrap {
+    transform-style: preserve-3d;
+    animation: boardSpin 12s linear infinite;
+    cursor:grab;
+  }
+  .board-wrap:active { cursor:grabbing; animation-play-state:paused; }
+  @keyframes boardSpin { from{transform:rotateY(0deg) rotateX(8deg)} to{transform:rotateY(360deg) rotateX(8deg)} }
+
+  /* ---- ARDUINO SVG BOARD ---- */
+  .arduino-container {
+    display:flex; flex-wrap:wrap; gap:40px;
+    align-items:flex-start; justify-content:center; margin-top:20px;
+  }
+  .board-section { flex:1; min-width:280px; }
+  .board-label-box {
+    background:var(--card2); border-radius:16px; padding:20px;
+    border:1.5px solid rgba(11,206,219,0.15);
+  }
+  .board-label-title { font-family:'Fredoka One'; font-size:1.2rem; color:var(--sky); margin-bottom:12px; }
+  .part-list { list-style:none; }
+  .part-list li {
+    display:flex; align-items:center; gap:10px;
+    padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06);
+    font-size:0.95rem;
+  }
+  .part-list li:last-child { border-bottom:none; }
+  .part-dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; }
+
+  /* ---- SENSOR CARDS ---- */
+  .sensor-card {
+    background: var(--card2);
+    border-radius:20px; padding:24px;
+    border:2px solid transparent;
+    transition:all 0.4s; cursor:pointer;
+    position:relative; overflow:hidden;
+  }
+  .sensor-card:hover { border-color:var(--yellow); transform:translateY(-6px); }
+  .sensor-card.active { border-color:var(--sky); background:#0d2233; }
+  .sensor-vis { height:100px; display:flex; align-items:center; justify-content:center; font-size:70px; margin-bottom:14px; }
+  .sensor-name { font-family:'Fredoka One'; font-size:1.3rem; margin-bottom:6px; }
+  .sensor-desc { font-size:0.9rem; color:var(--text2); }
+  .sensor-detail {
+    display:none; margin-top:14px; padding-top:14px;
+    border-top:1px dashed rgba(11,206,219,0.3);
+    font-size:0.9rem; color:var(--text2); line-height:1.7;
+  }
+  .sensor-card.active .sensor-detail { display:block; }
+  .sensor-example {
+    display:inline-block; margin-top:8px;
+    background:rgba(11,206,219,0.15); color:var(--sky);
+    padding:4px 14px; border-radius:999px; font-weight:700; font-size:0.85rem;
+  }
+
+  /* ---- ROBOT ANATOMY ---- */
+  .robot-anatomy {
+    display:flex; flex-wrap:wrap; gap:30px;
+    align-items:center; justify-content:center;
+  }
+  .robot-body-container { position:relative; flex:0 0 260px; }
+  .robot-svg { width:260px; }
+  .robot-label {
+    position:absolute; font-family:'Fredoka One'; font-size:0.8rem;
+    background:rgba(13,27,42,0.9); color:var(--yellow);
+    border:1.5px solid var(--yellow); border-radius:8px; padding:4px 10px;
+    white-space:nowrap; pointer-events:none;
+  }
+  .robot-labels-list { flex:1; min-width:260px; }
+  .robot-part {
+    display:flex; align-items:center; gap:14px;
+    padding:12px 16px; border-radius:14px; margin-bottom:10px;
+    background:var(--card2); transition:all 0.3s;
+    cursor:pointer; border:1.5px solid transparent;
+  }
+  .robot-part:hover { border-color:var(--orange); transform:translateX(6px); }
+  .robot-part-icon { font-size:28px; }
+  .robot-part-info .name { font-family:'Fredoka One'; font-size:1rem; color:var(--orange); }
+  .robot-part-info .desc { font-size:0.85rem; color:var(--text2); }
+
+  /* ---- IOT VISUALIZATION ---- */
+  .iot-diagram {
+    display:flex; flex-wrap:wrap; gap:20px;
+    align-items:center; justify-content:center; margin:30px 0;
+  }
+  .iot-node {
+    background:var(--card2); border-radius:20px;
+    padding:20px 24px; text-align:center;
+    border:2px solid rgba(11,206,219,0.2);
+    min-width:130px; transition:all 0.3s;
+  }
+  .iot-node:hover { border-color:var(--green); transform:scale(1.06); }
+  .iot-node .ico { font-size:48px; display:block; margin-bottom:8px; }
+  .iot-node .lbl { font-family:'Fredoka One'; font-size:1rem; }
+  .iot-arrow {
+    font-size:28px; color:var(--green); animation:arrowPulse 1.5s ease-in-out infinite;
+    display:flex; align-items:center;
+  }
+  @keyframes arrowPulse { 0%,100%{opacity:0.4;transform:scaleX(1)} 50%{opacity:1;transform:scaleX(1.2)} }
+
+  /* ---- FUN QUIZ ---- */
+  .quiz-box {
+    background: var(--card2); border-radius:24px; padding:30px;
+    border:2px solid rgba(255,217,61,0.3); max-width:600px; margin:0 auto;
+  }
+  .quiz-q { font-family:'Fredoka One'; font-size:1.4rem; margin-bottom:20px; }
+  .quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .quiz-opt {
+    background:var(--card); border:2px solid rgba(255,255,255,0.1);
+    border-radius:14px; padding:14px; font-size:1rem; font-weight:700;
+    cursor:pointer; transition:all 0.3s; text-align:center; color:var(--text);
+    font-family:'Nunito', sans-serif;
+  }
+  .quiz-opt:hover { border-color:var(--yellow); background:rgba(255,217,61,0.1); transform:scale(1.04); }
+  .quiz-opt.correct { background:rgba(6,214,160,0.25); border-color:var(--green); color:var(--green); }
+  .quiz-opt.wrong { background:rgba(255,77,139,0.2); border-color:var(--pink); color:var(--pink); }
+  .quiz-feedback {
+    margin-top:16px; text-align:center;
+    font-family:'Fredoka One'; font-size:1.3rem; opacity:0;
+    transition:opacity 0.4s;
+  }
+  .quiz-feedback.show { opacity:1; }
+  .quiz-nav { display:flex; justify-content:center; gap:14px; margin-top:20px; }
+  .quiz-btn {
+    font-family:'Fredoka One'; font-size:1rem;
+    padding:10px 28px; border-radius:999px;
+    border:none; cursor:pointer; transition:all 0.3s;
+    background: linear-gradient(135deg, var(--sky), var(--purple));
+    color:#fff;
+  }
+  .quiz-btn:hover { transform:scale(1.06); }
+
+  /* ---- PROGRESS BAR ---- */
+  .progress-bar {
+    position:fixed; top:56px; left:0; right:0; height:4px;
+    background:rgba(255,255,255,0.1); z-index:99;
+  }
+  .progress-fill {
+    height:100%; background:linear-gradient(90deg,var(--sky),var(--green));
+    transition:width 0.3s; width:0%;
+  }
+
+  /* ---- FUN FACTS TICKER ---- */
+  .ticker-wrap {
+    overflow:hidden; background:rgba(11,206,219,0.12);
+    border-top:1px solid rgba(11,206,219,0.3);
+    border-bottom:1px solid rgba(11,206,219,0.3);
+    padding:10px 0; margin:30px 0;
+  }
+  .ticker {
+    display:inline-flex; gap:60px;
+    animation:ticker 30s linear infinite; white-space:nowrap;
+  }
+  .ticker-item { color:var(--sky); font-weight:700; font-size:0.95rem; }
+  @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ---- COLORED SECTION BGs ---- */
+  #arduino .section-title { color:var(--sky); }
+  #sensors .section-title { color:var(--yellow); }
+  #robotics .section-title { color:var(--orange); }
+  #iot .section-title { color:var(--green); }
+  #quiz .section-title { color:var(--pink); }
+
+  /* ---- CONFETTI ---- */
+  .confetti-piece {
+    position:fixed; width:10px; height:10px; border-radius:2px;
+    animation: confettiFall 3s linear forwards;
+    pointer-events:none; z-index:999;
+  }
+  @keyframes confettiFall {
+    0%{transform:translateY(-20px) rotate(0deg); opacity:1}
+    100%{transform:translateY(100vh) rotate(720deg); opacity:0}
+  }
+
+  /* ---- BADGE ---- */
+  .fun-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Fredoka One'; font-size:0.9rem;
+    padding:5px 16px; border-radius:999px; margin:4px;
+  }
+  .badge-blue { background:rgba(11,206,219,0.2); color:var(--sky); border:1px solid rgba(11,206,219,0.4); }
+  .badge-yellow { background:rgba(255,217,61,0.2); color:var(--yellow); border:1px solid rgba(255,217,61,0.4); }
+  .badge-green { background:rgba(6,214,160,0.2); color:var(--green); border:1px solid rgba(6,214,160,0.4); }
+  .badge-pink { background:rgba(255,77,139,0.2); color:var(--pink); border:1px solid rgba(255,77,139,0.4); }
+
+  /* ---- INTERACTIVE ESP SVG ---- */
+  .esp-container { display:flex; flex-wrap:wrap; gap:30px; justify-content:center; align-items:flex-start; margin-top:20px; }
+  .esp-board-wrap { perspective:600px; }
+  .esp-board { transform-style:preserve-3d; animation:espSpin 14s linear infinite; }
+  @keyframes espSpin { from{transform:rotateY(0deg) rotateX(10deg)} to{transform:rotateY(360deg) rotateX(10deg)} }
+
+  /* ---- COMPARISON TABLE ---- */
+  .compare-table { width:100%; border-collapse:separate; border-spacing:0 10px; margin:20px 0; }
+  .compare-table th { font-family:'Fredoka One'; font-size:1.1rem; padding:14px 18px; }
+  .compare-table td { background:var(--card2); padding:14px 18px; font-size:0.95rem; }
+  .compare-table tr td:first-child { border-radius:14px 0 0 14px; font-weight:700; color:var(--sky); }
+  .compare-table tr td:last-child { border-radius:0 14px 14px 0; }
+  .compare-table th:first-child { border-radius:14px 0 0 14px; }
+  .compare-table th:last-child { border-radius:0 14px 14px 0; }
+  .compare-table thead th { background:rgba(11,206,219,0.2); color:var(--sky); }
+
+  /* ---- RESPONSIVE ---- */
+  @media(max-width:600px) {
+    .quiz-options { grid-template-columns:1fr; }
+    nav a { font-size:0.8rem; padding:5px 10px; }
+    .iot-arrow { display:none; }
+  }
+
+  /* ---- SCROLL REVEAL ---- */
+  .reveal { opacity:0; transform:translateY(40px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* ---- TYPING EFFECT ---- */
+  .type-text::after { content:'|'; animation:blink 0.8s step-end infinite; color:var(--sky); }
+  @keyframes blink { 50%{opacity:0} }
+
+  /* ---- GLOW ---- */
+  .glow { text-shadow: 0 0 20px currentColor; }
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Progress bar -->
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#hero" class="active">🏠 Home</a>
+  <a href="#what-is">🤔 What is Tech?</a>
+  <a href="#arduino">🟦 Arduino</a>
+  <a href="#esp">📡 ESP32</a>
+  <a href="#sensors">🔮 Sensors</a>
+  <a href="#robotics">🤖 Robots</a>
+  <a href="#iot">🌐 IoT</a>
+  <a href="#quiz">🎯 Quiz!</a>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <div class="section-inner" style="padding-top:20px">
+    <div class="hero-badge">✨ SPECIAL TECH ADVENTURE ✨</div>
+    <div class="hero-robot">🤖</div>
+    <h1 class="hero-title">Hello, Future<br>Inventors! 🚀</h1>
+    <p class="hero-sub">Today we're going on an adventure into the world of<br><span id="typeText" class="type-text">Robots, Arduino & Cool Gadgets!</span></p>
+    <div style="margin-bottom:32px">
+      <span class="fun-badge badge-blue">🔧 Arduino</span>
+      <span class="fun-badge badge-yellow">🤖 Robotics</span>
+      <span class="fun-badge badge-green">🌐 IoT</span>
+      <span class="fun-badge badge-pink">⚡ Electronics</span>
+    </div>
+    <a href="#what-is" class="btn-start">Let's Start the Adventure! 🎉</a>
+  </div>
+</section>
+
+<!-- ========== WHAT IS TECH ========== -->
+<section id="what-is">
+  <div class="section-inner">
+    <div class="reveal">
+      <h2 class="section-title" style="color:var(--purple)">🌟 What is Technology?</h2>
+      <p class="section-sub">Technology is using science to make cool things that help us!</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card reveal" style="border-color:rgba(132,94,194,0.4)">
+        <span class="card-icon">💡</span>
+        <div class="card-title" style="color:var(--yellow)">Electronics</div>
+        <div class="card-text">Like tiny electric rivers flowing through your phone, TV, and toys! When electricity flows the right way — magic happens! ✨</div>
+      </div>
+      <div class="card reveal" style="border-color:rgba(11,206,219,0.4)">
+        <span class="card-icon">🧠</span>
+        <div class="card-title" style="color:var(--sky)">Programming</div>
+        <div class="card-text">It's like giving instructions to a computer — like a recipe! If you say "go forward, then turn left" — the robot does it! 🗺️</div>
+      </div>
+      <div class="card reveal" style="border-color:rgba(6,214,160,0.4)">
+        <span class="card-icon">🔨</span>
+        <div class="card-title" style="color:var(--green)">Hardware</div>
+        <div class="card-text">The parts you can touch and hold! Buttons, motors, wires, little boards — like LEGO but for electronics! 🧩</div>
+      </div>
+      <div class="card reveal" style="border-color:rgba(255,107,53,0.4)">
+        <span class="card-icon">🌊</span>
+        <div class="card-title" style="color:var(--orange)">How They Work Together</div>
+        <div class="card-text">Hardware is the body 🏃, programming is the brain 🧠, and electricity is the energy ⚡ — together they make amazing things!</div>
+      </div>
+    </div>
+
+    <!-- Fun facts ticker -->
+    <div class="ticker-wrap reveal" style="margin-top:40px">
+      <div class="ticker">
+        <span class="ticker-item">⚡ Electricity travels at the speed of light!</span>
+        <span class="ticker-item">🤖 The word "Robot" comes from a Czech word meaning "worker"!</span>
+        <span class="ticker-item">💻 The first computer was the size of a whole room!</span>
+        <span class="ticker-item">📱 Your phone has more power than the computers that sent humans to the moon!</span>
+        <span class="ticker-item">🔢 Computers only understand 0 and 1 — but can do billions of things with it!</span>
+        <span class="ticker-item">⚡ Electricity travels at the speed of light!</span>
+        <span class="ticker-item">🤖 The word "Robot" comes from a Czech word meaning "worker"!</span>
+        <span class="ticker-item">💻 The first computer was the size of a whole room!</span>
+        <span class="ticker-item">📱 Your phone has more power than the computers that sent humans to the moon!</span>
+        <span class="ticker-item">🔢 Computers only understand 0 and 1 — but can do billions of things with it!</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ARDUINO ========== -->
+<section id="arduino">
+  <div class="section-inner">
+    <div class="reveal">
+      <h2 class="section-title">🟦 What is Arduino?</h2>
+      <p class="section-sub">Arduino is a tiny computer brain that you can program to do ANYTHING!</p>
+    </div>
+
+    <!-- 3D rotating Arduino board -->
+    <div class="board-scene reveal">
+      <div class="board-wrap" id="arduinoBoard">
+        <svg width="340" height="220" viewBox="0 0 340 220">
+          <!-- PCB board body -->
+          <rect x="10" y="10" width="320" height="200" rx="16" fill="#1a6b2a" stroke="#2aaa44" stroke-width="3"/>
+          <!-- PCB trace lines -->
+          <line x1="30" y1="10" x2="30" y2="210" stroke="#0d3d16" stroke-width="1" stroke-dasharray="4,6"/>
+          <line x1="80" y1="10" x2="80" y2="210" stroke="#0d3d16" stroke-width="1" stroke-dasharray="4,6"/>
+          <line x1="140" y1="10" x2="140" y2="210" stroke="#0d3d16" stroke-width="1" stroke-dasharray="4,6"/>
+          <line x1="200" y1="10" x2="200" y2="210" stroke="#0d3d16" stroke-width="1" stroke-dasharray="4,6"/>
+          <line x1="260" y1="10" x2="260" y2="210" stroke="#0d3d16" stroke-width="1" stroke-dasharray="4,6"/>
+          <line x1="300" y1="10" x2="300" y2="210" stroke="#0d3d16" stroke-width="1" stroke-dasharray="4,6"/>
+          <!-- Microcontroller chip (ATmega328) -->
+          <rect x="120" y="70" width="90" height="80" rx="4" fill="#1a1a2e" stroke="#555" stroke-width="2"/>
+          <!-- Chip pins left -->
+          <rect x="108" y="78" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="108" y="88" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="108" y="98" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="108" y="108" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="108" y="118" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="108" y="128" width="12" height="5" rx="2" fill="#888"/>
+          <!-- Chip pins right -->
+          <rect x="210" y="78" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="210" y="88" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="210" y="98" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="210" y="108" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="210" y="118" width="12" height="5" rx="2" fill="#888"/>
+          <rect x="210" y="128" width="12" height="5" rx="2" fill="#888"/>
+          <!-- Chip text -->
+          <text x="165" y="108" text-anchor="middle" fill="#4a9eff" font-size="9" font-family="monospace">ATmega328P</text>
+          <text x="165" y="120" text-anchor="middle" fill="#4a9eff" font-size="7" font-family="monospace">MICROCONTROLLER</text>
+          <!-- USB port -->
+          <rect x="12" y="80" width="36" height="26" rx="4" fill="#555" stroke="#888" stroke-width="1"/>
+          <rect x="16" y="84" width="28" height="18" rx="2" fill="#333"/>
+          <text x="30" y="115" text-anchor="middle" fill="#aaa" font-size="7" font-family="monospace">USB</text>
+          <!-- Power barrel -->
+          <circle cx="30" cy="165" r="14" fill="#333" stroke="#888" stroke-width="2"/>
+          <circle cx="30" cy="165" r="7" fill="#222"/>
+          <text x="30" y="188" text-anchor="middle" fill="#aaa" font-size="7" font-family="monospace">POWER</text>
+          <!-- Reset button -->
+          <rect x="72" y="155" width="24" height="14" rx="3" fill="#cc3333" stroke="#ff5555" stroke-width="1.5"/>
+          <text x="84" y="148" text-anchor="middle" fill="#ff8888" font-size="7" font-family="monospace">RESET</text>
+          <!-- LED (TX, RX, L, PWR) -->
+          <circle cx="235" cy="30" r="5" fill="#ff6600" opacity="0.9"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="1.5s" repeatCount="indefinite"/></circle>
+          <text x="235" y="20" text-anchor="middle" fill="#ff6600" font-size="7">PWR</text>
+          <circle cx="255" cy="30" r="5" fill="#00ff44" opacity="0.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/></circle>
+          <text x="255" y="20" text-anchor="middle" fill="#00ff44" font-size="7">L</text>
+          <circle cx="275" cy="30" r="5" fill="#ffff00" opacity="0.3"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="0.5s" repeatCount="indefinite"/></circle>
+          <text x="275" y="20" text-anchor="middle" fill="#ffff00" font-size="7">TX</text>
+          <circle cx="295" cy="30" r="5" fill="#ffff00" opacity="0.3"><animate attributeName="opacity" values="0.8;0.1;0.8" dur="0.7s" repeatCount="indefinite"/></circle>
+          <text x="295" y="20" text-anchor="middle" fill="#ffff00" font-size="7">RX</text>
+          <!-- Digital pins (top) -->
+          <g fill="#c8a84b" stroke="#8a6e28" stroke-width="0.5">
+            <rect x="240" y="50" width="8" height="14" rx="1"/>
+            <rect x="252" y="50" width="8" height="14" rx="1"/>
+            <rect x="264" y="50" width="8" height="14" rx="1"/>
+            <rect x="276" y="50" width="8" height="14" rx="1"/>
+            <rect x="288" y="50" width="8" height="14" rx="1"/>
+            <rect x="300" y="50" width="8" height="14" rx="1"/>
+          </g>
+          <text x="274" y="76" text-anchor="middle" fill="#ffd93d" font-size="7.5">DIGITAL PINS</text>
+          <!-- Analog pins (bottom) -->
+          <g fill="#c8a84b" stroke="#8a6e28" stroke-width="0.5">
+            <rect x="240" y="158" width="8" height="14" rx="1"/>
+            <rect x="252" y="158" width="8" height="14" rx="1"/>
+            <rect x="264" y="158" width="8" height="14" rx="1"/>
+            <rect x="276" y="158" width="8" height="14" rx="1"/>
+            <rect x="288" y="158" width="8" height="14" rx="1"/>
+          </g>
+          <text x="268" y="155" text-anchor="middle" fill="#ffd93d" font-size="7.5">ANALOG PINS</text>
+          <!-- Logo -->
+          <text x="55" y="55" text-anchor="middle" fill="#00d4ff" font-size="18" font-family="Georgia" font-style="italic" font-weight="bold">∞</text>
+          <text x="55" y="70" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="monospace">Arduino</text>
+          <!-- Crystal -->
+          <ellipse cx="160" cy="55" rx="12" ry="6" fill="#ccccaa" stroke="#888" stroke-width="1"/>
+          <text x="160" y="46" text-anchor="middle" fill="#aaa" font-size="7">CRYSTAL</text>
+          <!-- Voltage regulator -->
+          <rect x="85" y="155" width="20" height="16" rx="2" fill="#333" stroke="#666" stroke-width="1"/>
+          <text x="95" y="148" text-anchor="middle" fill="#aaa" font-size="6">VREG</text>
+          <!-- Capacitors -->
+          <ellipse cx="62" cy="130" rx="6" ry="8" fill="#7a7a40" stroke="#aaa" stroke-width="1"/>
+          <ellipse cx="76" cy="130" rx="6" ry="8" fill="#7a7a40" stroke="#aaa" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:0.85rem;color:var(--text2);margin-top:-10px;margin-bottom:30px">👆 Drag to rotate the board!</p>
+
+    <div class="arduino-container reveal">
+      <div class="board-section">
+        <div class="board-label-box">
+          <div class="board-label-title">🔵 Key Parts of Arduino UNO</div>
+          <ul class="part-list">
+            <li><span class="part-dot" style="background:#4a9eff"></span><strong>Microcontroller (ATmega328P)</strong> — The brain! Runs your code.</li>
+            <li><span class="part-dot" style="background:#555"></span><strong>USB Port</strong> — Connects to your computer to upload programs.</li>
+            <li><span class="part-dot" style="background:#cc3333"></span><strong>Reset Button</strong> — Press to restart your program.</li>
+            <li><span class="part-dot" style="background:#c8a84b"></span><strong>Digital Pins (0–13)</strong> — Like light switches: ON or OFF.</li>
+            <li><span class="part-dot" style="background:#ffd93d"></span><strong>Analog Pins (A0–A5)</strong> — Read values like temperature and light.</li>
+            <li><span class="part-dot" style="background:#00ff44"></span><strong>LEDs</strong> — Tiny lights that tell you it's working.</li>
+            <li><span class="part-dot" style="background:#7a7a40"></span><strong>Capacitors</strong> — Store a tiny bit of electricity, like a mini battery.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="board-section">
+        <div class="board-label-box" style="background:rgba(11,206,219,0.08);border-color:rgba(11,206,219,0.3)">
+          <div class="board-label-title" style="color:var(--yellow)">🎉 What can Arduino DO?</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+            <div style="background:var(--card);border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:30px">💡</div>
+              <div style="font-size:0.85rem;color:var(--text2);margin-top:4px">Blink lights</div>
+            </div>
+            <div style="background:var(--card);border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:30px">🚗</div>
+              <div style="font-size:0.85rem;color:var(--text2);margin-top:4px">Drive a car</div>
+            </div>
+            <div style="background:var(--card);border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:30px">🎵</div>
+              <div style="font-size:0.85rem;color:var(--text2);margin-top:4px">Play music</div>
+            </div>
+            <div style="background:var(--card);border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:30px">🌡️</div>
+              <div style="font-size:0.85rem;color:var(--text2);margin-top:4px">Read temperature</div>
+            </div>
+            <div style="background:var(--card);border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:30px">🔐</div>
+              <div style="font-size:0.85rem;color:var(--text2);margin-top:4px">Open a lock</div>
+            </div>
+            <div style="background:var(--card);border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:30px">🤖</div>
+              <div style="font-size:0.85rem;color:var(--text2);margin-top:4px">Control a robot</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simple code example -->
+    <div class="reveal" style="margin-top:30px">
+      <div style="background:#0a1628;border-radius:20px;padding:24px;border:2px dashed rgba(11,206,219,0.3);max-width:500px;margin:0 auto">
+        <div style="font-family:'Fredoka One';font-size:1.1rem;color:var(--sky);margin-bottom:14px">💻 Your First Arduino Code!</div>
+        <pre style="font-family:monospace;font-size:0.9rem;line-height:1.8;overflow-x:auto">
+<span style="color:#845EC2">void</span> <span style="color:#FFD93D">setup</span>() {
+  <span style="color:#06D6A0">// This runs ONCE when you start</span>
+  pinMode(13, <span style="color:#FF6B35">OUTPUT</span>); <span style="color:#06D6A0">// LED pin</span>
+}
+
+<span style="color:#845EC2">void</span> <span style="color:#FFD93D">loop</span>() {
+  <span style="color:#06D6A0">// This runs FOREVER</span>
+  digitalWrite(13, <span style="color:#FF6B35">HIGH</span>); <span style="color:#06D6A0">// 💡 ON</span>
+  delay(<span style="color:#0BCEDB">1000</span>);  <span style="color:#06D6A0">// wait 1 second</span>
+  digitalWrite(13, <span style="color:#FF6B35">LOW</span>);  <span style="color:#06D6A0">// 💡 OFF</span>
+  delay(<span style="color:#0BCEDB">1000</span>);  <span style="color:#06D6A0">// wait 1 second</span>
+}</pre>
+        <div style="margin-top:10px;color:var(--yellow);font-weight:700;font-size:0.9rem">⬆️ This code makes an LED blink — ON and OFF, forever! ✨</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ESP32 ========== -->
+<section id="esp">
+  <div class="section-inner">
+    <div class="reveal">
+      <h2 class="section-title" style="color:var(--purple)">📡 What is ESP32?</h2>
+      <p class="section-sub">ESP32 is a super smart chip — it's like Arduino, but it can connect to WiFi and Bluetooth too!</p>
+    </div>
+
+    <div class="esp-container reveal">
+      <div class="esp-board-wrap">
+        <div class="esp-board">
+          <svg width="200" height="320" viewBox="0 0 200 320">
+            <!-- PCB -->
+            <rect x="10" y="10" width="180" height="300" rx="10" fill="#2d1b69" stroke="#7a5af8" stroke-width="2"/>
+            <!-- Traces -->
+            <line x1="30" y1="10" x2="30" y2="310" stroke="#1a0d3d" stroke-width="1" stroke-dasharray="3,5"/>
+            <line x1="100" y1="10" x2="100" y2="310" stroke="#1a0d3d" stroke-width="1" stroke-dasharray="3,5"/>
+            <line x1="170" y1="10" x2="170" y2="310" stroke="#1a0d3d" stroke-width="1" stroke-dasharray="3,5"/>
+            <!-- WiFi antenna -->
+            <path d="M85,20 Q100,12 115,20" stroke="#ff6b35" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M75,32 Q100,16 125,32" stroke="#ff6b35" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M65,44 Q100,20 135,44" stroke="#ff6b35" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+            <!-- Main chip -->
+            <rect x="50" y="80" width="100" height="90" rx="4" fill="#111" stroke="#444" stroke-width="2"/>
+            <!-- Chip pins L -->
+            <rect x="36" y="88" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="36" y="96" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="36" y="104" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="36" y="112" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="36" y="120" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="36" y="128" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="36" y="136" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="36" y="144" width="14" height="4" rx="1" fill="#aaa"/>
+            <!-- Chip pins R -->
+            <rect x="150" y="88" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="150" y="96" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="150" y="104" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="150" y="112" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="150" y="120" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="150" y="128" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="150" y="136" width="14" height="4" rx="1" fill="#aaa"/>
+            <rect x="150" y="144" width="14" height="4" rx="1" fill="#aaa"/>
+            <!-- Chip label -->
+            <text x="100" y="118" text-anchor="middle" fill="#7a5af8" font-size="8" font-family="monospace">ESP32</text>
+            <text x="100" y="128" text-anchor="middle" fill="#7a5af8" font-size="7" font-family="monospace">WROOM-32</text>
+            <text x="100" y="140" text-anchor="middle" fill="#555" font-size="6" font-family="monospace">ESPRESSIF</text>
+            <!-- USB-C -->
+            <rect x="70" y="290" width="60" height="16" rx="6" fill="#555" stroke="#888" stroke-width="1.5"/>
+            <rect x="75" y="293" width="50" height="10" rx="4" fill="#333"/>
+            <text x="100" y="280" text-anchor="middle" fill="#aaa" font-size="8" font-family="monospace">USB-C</text>
+            <!-- Boot / EN buttons -->
+            <rect x="30" y="60" width="26" height="12" rx="3" fill="#4488ff" stroke="#66aaff" stroke-width="1"/>
+            <text x="43" y="57" text-anchor="middle" fill="#aaa" font-size="7" font-family="monospace">BOOT</text>
+            <rect x="140" y="60" width="26" height="12" rx="3" fill="#cc3333" stroke="#ff5555" stroke-width="1"/>
+            <text x="153" y="57" text-anchor="middle" fill="#aaa" font-size="7" font-family="monospace">EN/RST</text>
+            <!-- LED -->
+            <circle cx="30" cy="200" r="5" fill="#00ff88" opacity="0.8"><animate attributeName="opacity" values="0.8;0.1;0.8" dur="2s" repeatCount="indefinite"/></circle>
+            <text x="30" y="215" text-anchor="middle" fill="#00ff88" font-size="7">LED</text>
+            <!-- WiFi/BT icons -->
+            <text x="100" y="240" text-anchor="middle" fill="#0BCEDB" font-size="11">📶 WiFi + 🔵 Bluetooth</text>
+            <!-- GPIO labels -->
+            <text x="27" y="77" text-anchor="middle" fill="#ffd93d" font-size="6" transform="rotate(-90,27,77)">GPIO</text>
+            <text x="173" y="77" text-anchor="middle" fill="#ffd93d" font-size="6" transform="rotate(90,173,77)">GPIO</text>
+          </svg>
+        </div>
+      </div>
+
+      <div style="flex:1;min-width:260px">
+        <div class="board-label-box" style="margin-bottom:16px">
+          <div class="board-label-title" style="color:var(--purple)">🌟 What's special about ESP32?</div>
+          <ul class="part-list">
+            <li><span class="part-dot" style="background:#0BCEDB"></span><strong>WiFi Built-in</strong> — Can connect to internet like your phone!</li>
+            <li><span class="part-dot" style="background:#4488ff"></span><strong>Bluetooth</strong> — Talks to other devices wirelessly!</li>
+            <li><span class="part-dot" style="background:#7a5af8"></span><strong>Dual Core CPU</strong> — TWO brains in one chip! Super fast!</li>
+            <li><span class="part-dot" style="background:#00ff88"></span><strong>38 GPIO Pins</strong> — Lots of connections for sensors!</li>
+            <li><span class="part-dot" style="background:#ffd93d"></span><strong>Touch Pins</strong> — Can detect your finger touch!</li>
+          </ul>
+        </div>
+
+        <!-- Comparison Arduino vs ESP32 -->
+        <div class="board-label-box">
+          <div class="board-label-title">⚡ Arduino vs ESP32 — Quick Compare!</div>
+          <table class="compare-table" style="font-size:0.8rem;margin:0">
+            <thead><tr><th>Feature</th><th style="color:var(--sky)">Arduino UNO</th><th style="color:var(--purple)">ESP32</th></tr></thead>
+            <tbody>
+              <tr><td>WiFi</td><td style="color:#aaa">❌ No</td><td style="color:var(--green)">✅ Yes!</td></tr>
+              <tr><td>Bluetooth</td><td style="color:#aaa">❌ No</td><td style="color:var(--green)">✅ Yes!</td></tr>
+              <tr><td>Speed</td><td style="color:#ffd93d">16 MHz</td><td style="color:var(--green)">240 MHz 🚀</td></tr>
+              <tr><td>Best for</td><td style="color:#aaa">Learning basics</td><td style="color:var(--purple)">IoT & Web!</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SENSORS ========== -->
+<section id="sensors">
+  <div class="section-inner">
+    <div class="reveal">
+      <h2 class="section-title">🔮 Cool Sensors!</h2>
+      <p class="section-sub">Sensors are like the eyes, ears, and nose of a robot — they feel the world! 👀👂👃<br>Click on any sensor to learn more!</p>
+    </div>
+    <div class="cards-grid" id="sensorGrid">
+
+      <div class="sensor-card reveal" onclick="toggleSensor(this)">
+        <div class="sensor-vis">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <rect x="15" y="25" width="50" height="35" rx="6" fill="#2a1a50" stroke="#7a5af8" stroke-width="2"/>
+            <circle cx="40" cy="42" r="10" fill="#3a2a60" stroke="#9b7bfa" stroke-width="2"/>
+            <circle cx="40" cy="42" r="5" fill="#7a5af8"/>
+            <circle cx="40" cy="42" r="2" fill="#fff"/>
+            <!-- Infrared waves -->
+            <path d="M55,35 Q65,42 55,49" stroke="#ff4444" fill="none" stroke-width="2" opacity="0.8"><animate attributeName="opacity" values="0.8;0.2;0.8" dur="1s" repeatCount="indefinite"/></path>
+            <path d="M58,30 Q72,42 58,54" stroke="#ff4444" fill="none" stroke-width="1.5" opacity="0.5"><animate attributeName="opacity" values="0.5;0.1;0.5" dur="1s" repeatCount="indefinite"/></path>
+            <rect x="25" y="58" width="8" height="10" rx="1" fill="#aaa"/>
+            <rect x="37" y="58" width="8" height="10" rx="1" fill="#aaa"/>
+            <rect x="49" y="58" width="8" height="10" rx="1" fill="#aaa"/>
+          </svg>
+        </div>
+        <div class="sensor-name" style="color:var(--purple)">📡 Ultrasonic Sensor</div>
+        <div class="sensor-desc">Measures distance using sound waves!</div>
+        <div class="sensor-detail">
+          🎵 It sends out a sound (too high for us to hear!) and listens for the echo — just like a bat!
+          The longer the echo takes, the farther away the object is!<br>
+          <span class="sensor-example">Used in: Robot cars to avoid walls!</span>
+        </div>
+      </div>
+
+      <div class="sensor-card reveal" onclick="toggleSensor(this)">
+        <div class="sensor-vis">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <!-- Temperature sensor body -->
+            <rect x="28" y="15" width="24" height="45" rx="10" fill="#cc2233" stroke="#ff4455" stroke-width="2"/>
+            <rect x="33" y="20" width="14" height="35" rx="6" fill="#ff2233"/>
+            <circle cx="40" cy="55" r="9" fill="#ff0033" stroke="#ff6677" stroke-width="2"/>
+            <!-- Mercury rise -->
+            <rect x="37" y="30" width="6" height="26" rx="3" fill="#ff6666"/>
+            <!-- Degree lines -->
+            <line x1="25" y1="35" x2="28" y2="35" stroke="#ff8888" stroke-width="1.5"/>
+            <line x1="25" y1="42" x2="28" y2="42" stroke="#ff8888" stroke-width="1.5"/>
+            <line x1="25" y1="49" x2="28" y2="49" stroke="#ff8888" stroke-width="1.5"/>
+            <text x="40" y="76" text-anchor="middle" fill="#ff8888" font-size="8">DHT11</text>
+          </svg>
+        </div>
+        <div class="sensor-name" style="color:var(--orange)">🌡️ Temperature Sensor</div>
+        <div class="sensor-desc">Feels how hot or cold it is!</div>
+        <div class="sensor-detail">
+          🌞❄️ The DHT11 sensor measures both temperature AND how much water is in the air (humidity)! It works just like a thermometer at the doctor's office.
+          <br><span class="sensor-example">Used in: Smart home AC systems!</span>
+        </div>
+      </div>
+
+      <div class="sensor-card reveal" onclick="toggleSensor(this)">
+        <div class="sensor-vis">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <!-- Light sensor -->
+            <rect x="20" y="20" width="40" height="40" rx="6" fill="#1a2e44" stroke="#ffd93d" stroke-width="2"/>
+            <!-- Sun rays -->
+            <circle cx="40" cy="40" r="8" fill="#ffd93d" opacity="0.9"/>
+            <line x1="40" y1="12" x2="40" y2="18" stroke="#ffd93d" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></line>
+            <line x1="40" y1="62" x2="40" y2="68" stroke="#ffd93d" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></line>
+            <line x1="12" y1="40" x2="18" y2="40" stroke="#ffd93d" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></line>
+            <line x1="62" y1="40" x2="68" y2="40" stroke="#ffd93d" stroke-width="2.5" stroke-linecap="round"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></line>
+            <line x1="20" y1="20" x2="24" y2="24" stroke="#ffd93d" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <line x1="60" y1="20" x2="56" y2="24" stroke="#ffd93d" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <line x1="20" y1="60" x2="24" y2="56" stroke="#ffd93d" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <line x1="60" y1="60" x2="56" y2="56" stroke="#ffd93d" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+          </svg>
+        </div>
+        <div class="sensor-name" style="color:var(--yellow)">☀️ Light Sensor (LDR)</div>
+        <div class="sensor-desc">Detects how bright or dark it is!</div>
+        <div class="sensor-detail">
+          💡 LDR means Light Dependent Resistor. When it's bright, electricity flows easily. When it's dark, it blocks electricity — like a little light meter!
+          <br><span class="sensor-example">Used in: Street lights that turn ON at night!</span>
+        </div>
+      </div>
+
+      <div class="sensor-card reveal" onclick="toggleSensor(this)">
+        <div class="sensor-vis">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <!-- Motion sensor -->
+            <polygon points="40,15 65,55 15,55" fill="#0d3366" stroke="#4488ff" stroke-width="2"/>
+            <!-- Eye dome -->
+            <ellipse cx="40" cy="45" rx="16" ry="12" fill="#1a4a88" stroke="#4488ff" stroke-width="1.5"/>
+            <ellipse cx="40" cy="45" rx="10" ry="7" fill="#2266cc"/>
+            <ellipse cx="40" cy="45" rx="5" ry="4" fill="#66aaff"/>
+            <circle cx="40" cy="45" r="2" fill="#ffffff"/>
+            <!-- Detection waves -->
+            <path d="M20,45 Q10,35 20,25" stroke="#4488ff" fill="none" stroke-width="1.5" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="1.2s" repeatCount="indefinite"/></path>
+            <path d="M60,45 Q70,35 60,25" stroke="#4488ff" fill="none" stroke-width="1.5" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="1.2s" repeatCount="indefinite"/></path>
+            <rect x="32" y="57" width="16" height="8" rx="2" fill="#0d1b2a" stroke="#4488ff" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="sensor-name" style="color:var(--sky)">👁️ PIR Motion Sensor</div>
+        <div class="sensor-desc">Detects when someone moves!</div>
+        <div class="sensor-detail">
+          🏃 PIR stands for Passive InfraRed. Our bodies give off heat, and this sensor can feel that heat from far away — it knows when you walk by!
+          <br><span class="sensor-example">Used in: Automatic bathroom lights!</span>
+        </div>
+      </div>
+
+      <div class="sensor-card reveal" onclick="toggleSensor(this)">
+        <div class="sensor-vis">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <!-- Soil/moisture sensor -->
+            <rect x="28" y="10" width="24" height="50" rx="4" fill="#3d2200" stroke="#8B4513" stroke-width="2"/>
+            <!-- Moisture drops -->
+            <ellipse cx="40" cy="35" rx="6" ry="8" fill="#4499ff" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/></ellipse>
+            <ellipse cx="32" cy="42" rx="4" ry="5" fill="#4499ff" opacity="0.5"><animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.5s" repeatCount="indefinite"/></ellipse>
+            <ellipse cx="48" cy="28" rx="3" ry="4" fill="#4499ff" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/></ellipse>
+            <!-- Probes -->
+            <rect x="33" y="58" width="4" height="16" rx="1" fill="#aaa"/>
+            <rect x="43" y="58" width="4" height="16" rx="1" fill="#aaa"/>
+            <!-- LED indicator -->
+            <circle cx="40" cy="20" r="4" fill="#00ff44"><animate attributeName="fill" values="#00ff44;#004400;#00ff44" dur="1.5s" repeatCount="indefinite"/></circle>
+          </svg>
+        </div>
+        <div class="sensor-name" style="color:var(--green)">💧 Moisture Sensor</div>
+        <div class="sensor-desc">Checks if soil is wet or dry!</div>
+        <div class="sensor-detail">
+          🌱 Put the two metal prongs into soil — if it's wet, electricity flows between them. If it's dry, no flow! Perfect for knowing when your plant needs water!
+          <br><span class="sensor-example">Used in: Smart plant watering robots!</span>
+        </div>
+      </div>
+
+      <div class="sensor-card reveal" onclick="toggleSensor(this)">
+        <div class="sensor-vis">
+          <svg width="80" height="80" viewBox="0 0 80 80">
+            <!-- Buzzer -->
+            <circle cx="40" cy="40" r="26" fill="#2a2a2a" stroke="#ffd93d" stroke-width="2"/>
+            <circle cx="40" cy="40" r="18" fill="#333"/>
+            <circle cx="40" cy="40" r="10" fill="#ffd93d" opacity="0.9"/>
+            <circle cx="40" cy="40" r="4" fill="#333"/>
+            <!-- Sound waves -->
+            <path d="M60,30 Q72,40 60,50" stroke="#ffd93d" fill="none" stroke-width="2"><animate attributeName="opacity" values="1;0;1" dur="0.8s" repeatCount="indefinite"/></path>
+            <path d="M64,24 Q80,40 64,56" stroke="#ffd93d" fill="none" stroke-width="1.5" opacity="0.5"><animate attributeName="opacity" values="0.5;0;0.5" dur="0.8s" repeatCount="indefinite"/></path>
+            <!-- Pins -->
+            <rect x="28" y="64" width="5" height="12" rx="1" fill="#c8a84b"/>
+            <rect x="47" y="64" width="5" height="12" rx="1" fill="#c8a84b"/>
+          </svg>
+        </div>
+        <div class="sensor-name" style="color:var(--yellow)">🔔 Buzzer</div>
+        <div class="sensor-desc">Makes beeping sounds when told to!</div>
+        <div class="sensor-detail">
+          🎵 A buzzer has a tiny vibrating disk inside. When electricity flows through it, it vibrates super fast and makes a BEEP sound! You control how fast it beeps.
+          <br><span class="sensor-example">Used in: Alarm clocks & doorbells!</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== ROBOTICS ========== -->
+<section id="robotics">
+  <div class="section-inner">
+    <div class="reveal">
+      <h2 class="section-title">🤖 What is a Robot?</h2>
+      <p class="section-sub">A robot is a machine that can sense, think, and act — just like us! 🧠💪</p>
+    </div>
+
+    <div class="robot-anatomy reveal">
+      <!-- Animated Robot SVG -->
+      <div class="robot-body-container">
+        <svg class="robot-svg" viewBox="0 0 260 400">
+          <!-- Body -->
+          <rect x="70" y="130" width="120" height="130" rx="20" fill="#0d2233" stroke="#0BCEDB" stroke-width="2.5"/>
+          <!-- Head -->
+          <rect x="80" y="50" width="100" height="80" rx="16" fill="#0d2233" stroke="#0BCEDB" stroke-width="2.5">
+            <animate attributeName="y" values="50;46;50" dur="3s" repeatCount="indefinite"/>
+          </rect>
+          <!-- Eyes -->
+          <ellipse cx="115" cy="85" rx="14" ry="14" fill="#1a3a55" stroke="#0BCEDB" stroke-width="2"/>
+          <ellipse cx="145" cy="85" rx="14" ry="14" fill="#1a3a55" stroke="#0BCEDB" stroke-width="2"/>
+          <ellipse cx="115" cy="85" rx="9" ry="9" fill="#0BCEDB" opacity="0.9"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="3s" repeatCount="indefinite"/></ellipse>
+          <ellipse cx="145" cy="85" rx="9" ry="9" fill="#0BCEDB" opacity="0.9"><animate attributeName="opacity" values="0.9;0.2;0.9" dur="3s" repeatCount="indefinite"/></ellipse>
+          <!-- Mouth -->
+          <rect x="100" y="112" width="60" height="8" rx="4" fill="#0d2233" stroke="#ffd93d" stroke-width="1.5"/>
+          <rect x="103" y="113" width="8" height="6" rx="2" fill="#ffd93d"/>
+          <rect x="115" y="113" width="8" height="6" rx="2" fill="#ffd93d"/>
+          <rect x="127" y="113" width="8" height="6" rx="2" fill="#ffd93d"/>
+          <rect x="139" y="113" width="8" height="6" rx="2" fill="#ffd93d"/>
+          <rect x="151" y="113" width="8" height="6" rx="2" fill="#ffd93d"/>
+          <!-- Antenna -->
+          <line x1="130" y1="50" x2="130" y2="28" stroke="#0BCEDB" stroke-width="2.5"><animate attributeName="y2" values="28;24;28" dur="3s" repeatCount="indefinite"/></line>
+          <circle cx="130" cy="24" r="6" fill="#ff4d8b"><animate attributeName="r" values="6;9;6" dur="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/></circle>
+          <!-- Arms -->
+          <rect x="20" y="140" width="50" height="22" rx="11" fill="#0d2233" stroke="#0BCEDB" stroke-width="2">
+            <animateTransform attributeName="transform" type="rotate" values="-10,45,151;10,45,151;-10,45,151" dur="3s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="190" y="140" width="50" height="22" rx="11" fill="#0d2233" stroke="#0BCEDB" stroke-width="2">
+            <animateTransform attributeName="transform" type="rotate" values="10,215,151;-10,215,151;10,215,151" dur="3s" repeatCount="indefinite"/>
+          </rect>
+          <!-- Claws L -->
+          <circle cx="22" cy="151" r="8" fill="#1a3a55" stroke="#06D6A0" stroke-width="1.5">
+            <animateTransform attributeName="transform" type="rotate" values="-10,45,151;10,45,151;-10,45,151" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="238" cy="151" r="8" fill="#1a3a55" stroke="#06D6A0" stroke-width="1.5">
+            <animateTransform attributeName="transform" type="rotate" values="10,215,151;-10,215,151;10,215,151" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Body details -->
+          <rect x="90" y="150" width="80" height="50" rx="8" fill="#0a1a2a" stroke="#0BCEDB" stroke-width="1"/>
+          <!-- Screen on body -->
+          <rect x="95" y="155" width="70" height="40" rx="5" fill="#061220"/>
+          <text x="130" y="170" text-anchor="middle" fill="#06D6A0" font-size="8" font-family="monospace">STATUS: OK</text>
+          <text x="130" y="182" text-anchor="middle" fill="#0BCEDB" font-size="7" font-family="monospace">BATTERY: 85%</text>
+          <rect x="98" y="186" width="50" height="6" rx="3" fill="#0d2233"/>
+          <rect x="98" y="186" width="43" height="6" rx="3" fill="#06D6A0"/>
+          <!-- Legs -->
+          <rect x="88" y="258" width="32" height="80" rx="12" fill="#0d2233" stroke="#0BCEDB" stroke-width="2">
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,4;0,0" dur="1s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="140" y="258" width="32" height="80" rx="12" fill="#0d2233" stroke="#0BCEDB" stroke-width="2">
+            <animateTransform attributeName="transform" type="translate" values="0,4;0,0;0,4" dur="1s" repeatCount="indefinite"/>
+          </rect>
+          <!-- Wheels on feet -->
+          <ellipse cx="104" cy="340" rx="18" ry="8" fill="#1a3a55" stroke="#06D6A0" stroke-width="1.5"/>
+          <ellipse cx="156" cy="340" rx="18" ry="8" fill="#1a3a55" stroke="#06D6A0" stroke-width="1.5"/>
+          <!-- Label arrows -->
+          <line x1="80" y1="85" x2="55" y2="65" stroke="#ffd93d" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="130" y1="25" x2="160" y2="15" stroke="#ffd93d" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="130" y1="175" x2="170" y2="185" stroke="#ffd93d" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="104" y1="338" x2="80" y2="360" stroke="#ffd93d" stroke-width="1.5" stroke-dasharray="4,3"/>
+        </svg>
+        <!-- Labels -->
+        <div class="robot-label" style="top:48px;left:-30px">👁️ Sensors</div>
+        <div class="robot-label" style="top:2px;right:0px">📡 Antenna</div>
+        <div class="robot-label" style="top:155px;right:-30px">🧠 Arduino Brain</div>
+        <div class="robot-label" style="bottom:62px;left:-15px">⚙️ Motors</div>
+      </div>
+
+      <!-- Robot parts list -->
+      <div class="robot-labels-list">
+        <div class="robot-part">
+          <div class="robot-part-icon">👁️</div>
+          <div class="robot-part-info">
+            <div class="name">Sensors (Eyes & Ears)</div>
+            <div class="desc">Detect surroundings — distance, light, sound, temperature</div>
+          </div>
+        </div>
+        <div class="robot-part">
+          <div class="robot-part-icon">🧠</div>
+          <div class="robot-part-info">
+            <div class="name">Microcontroller (Brain)</div>
+            <div class="desc">Arduino/ESP32 — processes all sensor data and makes decisions</div>
+          </div>
+        </div>
+        <div class="robot-part">
+          <div class="robot-part-icon">⚙️</div>
+          <div class="robot-part-info">
+            <div class="name">Motors & Servos (Muscles)</div>
+            <div class="desc">Make wheels spin and arms move — they're the robot's strength!</div>
+          </div>
+        </div>
+        <div class="robot-part">
+          <div class="robot-part-icon">🔋</div>
+          <div class="robot-part-info">
+            <div class="name">Battery (Energy)</div>
+            <div class="desc">Powers everything — like food for the robot!</div>
+          </div>
+        </div>
+        <div class="robot-part">
+          <div class="robot-part-icon">📡</div>
+          <div class="robot-part-info">
+            <div class="name">Communication Module</div>
+            <div class="desc">WiFi / Bluetooth so the robot can talk to phones or internet!</div>
+          </div>
+        </div>
+        <div class="robot-part">
+          <div class="robot-part-icon">💻</div>
+          <div class="robot-part-info">
+            <div class="name">Code / Program</div>
+            <div class="desc">Instructions you write — the robot's rulebook!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Types of robots -->
+    <div class="reveal" style="margin-top:40px">
+      <h3 style="font-family:'Fredoka One';font-size:1.8rem;color:var(--orange);text-align:center;margin-bottom:24px">🌍 Types of Robots in the World!</h3>
+      <div class="cards-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px">
+        <div class="card" style="text-align:center;padding:20px 14px">
+          <span class="card-icon">🚗</span>
+          <div class="card-title" style="font-size:1.1rem;color:var(--yellow)">Car Robots</div>
+          <div class="card-text" style="font-size:0.85rem">Self-driving cars that can drive without a human!</div>
+        </div>
+        <div class="card" style="text-align:center;padding:20px 14px">
+          <span class="card-icon">🦾</span>
+          <div class="card-title" style="font-size:1.1rem;color:var(--sky)">Factory Robots</div>
+          <div class="card-text" style="font-size:0.85rem">Build cars and phones in big factories!</div>
+        </div>
+        <div class="card" style="text-align:center;padding:20px 14px">
+          <span class="card-icon">🚀</span>
+          <div class="card-title" style="font-size:1.1rem;color:var(--orange)">Space Robots</div>
+          <div class="card-text" style="font-size:0.85rem">Mars Rover explores other planets!</div>
+        </div>
+        <div class="card" style="text-align:center;padding:20px 14px">
+          <span class="card-icon">🐕</span>
+          <div class="card-title" style="font-size:1.1rem;color:var(--green)">Animal Robots</div>
+          <div class="card-text" style="font-size:0.85rem">Robot dogs and animals that can jump and run!</div>
+        </div>
+        <div class="card" style="text-align:center;padding:20px 14px">
+          <span class="card-icon">🏥</span>
+          <div class="card-title" style="font-size:1.1rem;color:var(--pink)">Medical Robots</div>
+          <div class="card-text" style="font-size:0.85rem">Help doctors do tiny surgeries!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== IoT ========== -->
+<section id="iot">
+  <div class="section-inner">
+    <div class="reveal">
+      <h2 class="section-title">🌐 What is IoT?</h2>
+      <p class="section-sub">IoT means "Internet of Things" — it's when everyday objects talk to each other through the internet! 🗣️📱</p>
+    </div>
+
+    <!-- IoT Flow Diagram -->
+    <div class="iot-diagram reveal">
+      <div class="iot-node">
+        <span class="ico">🌡️</span>
+        <div class="lbl">Sensor</div>
+        <div style="font-size:0.7rem;color:var(--text2);margin-top:4px">Collects data</div>
+      </div>
+      <div class="iot-arrow">➡️</div>
+      <div class="iot-node">
+        <span class="ico">📡</span>
+        <div class="lbl">ESP32</div>
+        <div style="font-size:0.7rem;color:var(--text2);margin-top:4px">Sends via WiFi</div>
+      </div>
+      <div class="iot-arrow">➡️</div>
+      <div class="iot-node">
+        <span class="ico">☁️</span>
+        <div class="lbl">Internet</div>
+        <div style="font-size:0.7rem;color:var(--text2);margin-top:4px">Cloud storage</div>
+      </div>
+      <div class="iot-arrow">➡️</div>
+      <div class="iot-node">
+        <span class="ico">📱</span>
+        <div class="lbl">Your Phone</div>
+        <div style="font-size:0.7rem;color:var(--text2);margin-top:4px">You see it!</div>
+      </div>
+      <div class="iot-arrow">➡️</div>
+      <div class="iot-node">
+        <span class="ico">💡</span>
+        <div class="lbl">Action!</div>
+        <div style="font-size:0.7rem;color:var(--text2);margin-top:4px">Light turns ON</div>
+      </div>
+    </div>
+
+    <div class="cards-grid reveal">
+      <div class="card" style="border-color:rgba(6,214,160,0.4)">
+        <span class="card-icon">🏠</span>
+        <div class="card-title" style="color:var(--green)">Smart Home</div>
+        <div class="card-text">Turn your lights ON/OFF with your phone! Your fridge can tell you when you're out of milk! Your door can unlock when you arrive home! 🏡</div>
+      </div>
+      <div class="card" style="border-color:rgba(11,206,219,0.4)">
+        <span class="card-icon">🌿</span>
+        <div class="card-title" style="color:var(--sky)">Smart Garden</div>
+        <div class="card-text">A moisture sensor in the soil sends a message to your phone when the plant needs water — and then automatically waters it! 🌱💧</div>
+      </div>
+      <div class="card" style="border-color:rgba(255,217,61,0.4)">
+        <span class="card-icon">🚌</span>
+        <div class="card-title" style="color:var(--yellow)">Smart Transport</div>
+        <div class="card-text">Your school bus has GPS — your parents can see exactly where it is on their phone! No more guessing when you arrive! 🗺️</div>
+      </div>
+      <div class="card" style="border-color:rgba(255,77,139,0.4)">
+        <span class="card-icon">⌚</span>
+        <div class="card-title" style="color:var(--pink)">Wearables</div>
+        <div class="card-text">Smartwatches count your steps, check your heartbeat, and tell your parents if you're okay! It's technology you can wear! 💪</div>
+      </div>
+    </div>
+
+    <!-- Simple analogy -->
+    <div class="reveal" style="margin-top:32px;background:rgba(6,214,160,0.08);border-radius:20px;padding:28px;border:2px solid rgba(6,214,160,0.25);max-width:680px;margin-left:auto;margin-right:auto">
+      <div style="font-family:'Fredoka One';font-size:1.5rem;color:var(--green);margin-bottom:12px">🎯 Simple Way to Remember IoT</div>
+      <p style="font-size:1.05rem;line-height:1.8;color:var(--text2)">
+        Imagine you have a <strong style="color:white">pet fish tank</strong>. A tiny sensor checks if the water is too cold 🌡️. It sends a message through WiFi ☁️ to your phone 📱. Your phone shows: <strong style="color:var(--green)">"Fish water is cold!"</strong>. You tap a button and a heater turns on automatically! ♨️<br><br>
+        <strong style="color:white">That's IoT — devices talking to each other through the internet to make life easier!</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== QUIZ ========== -->
+<section id="quiz">
+  <div class="section-inner">
+    <div class="reveal">
+      <h2 class="section-title">🎯 Fun Quiz Time!</h2>
+      <p class="section-sub">Let's see what you learned today! Don't worry — every answer is a WIN! 🏆</p>
+    </div>
+    <div class="quiz-box reveal">
+      <div id="quizScore" style="text-align:center;font-family:'Fredoka One';font-size:1rem;color:var(--sky);margin-bottom:14px">Question <span id="qNum">1</span> of 6</div>
+      <div class="quiz-q" id="quizQ">What is the "brain" of an Arduino board?</div>
+      <div class="quiz-options" id="quizOpts"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-nav">
+        <button class="quiz-btn" id="nextBtn" onclick="nextQuestion()" style="display:none">Next Question ➡️</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer style="position:relative;z-index:1;text-align:center;padding:40px 20px;border-top:1px solid rgba(11,206,219,0.2)">
+  <div style="font-size:60px;margin-bottom:16px">🚀</div>
+  <div style="font-family:'Fredoka One';font-size:2rem;color:var(--sky);margin-bottom:8px">You're an Amazing Future Inventor!</div>
+  <div style="color:var(--text2);font-size:1.05rem;max-width:500px;margin:0 auto 24px">Keep exploring, keep building, and never stop asking "What if I make something cool?" 🌟</div>
+  <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:20px">
+    <span class="fun-badge badge-blue">🔧 Arduino</span>
+    <span class="fun-badge badge-yellow">📡 ESP32</span>
+    <span class="fun-badge badge-green">🔮 Sensors</span>
+    <span class="fun-badge badge-pink">🤖 Robotics</span>
+    <span class="fun-badge badge-blue">🌐 IoT</span>
+  </div>
+  <div style="color:rgba(168,212,240,0.4);font-size:0.85rem">Made with ❤️ for future tech explorers • Presented by Satyam</div>
+</footer>
+
+<script>
+// ---- STARS ----
+const starsEl = document.getElementById('stars');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*2.5+0.5;
+  s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*4}s`;
+  starsEl.appendChild(s);
+}
+
+// ---- PROGRESS ----
+window.addEventListener('scroll',()=>{
+  const d=document.documentElement;
+  const pct=(d.scrollTop/(d.scrollHeight-d.clientHeight))*100;
+  document.getElementById('progress').style.width=pct+'%';
+});
+
+// ---- NAV ACTIVE ----
+const sections=document.querySelectorAll('section');
+const navLinks=document.querySelectorAll('nav a');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  sections.forEach(s=>{if(s.offsetTop-100<=window.scrollY)cur=s.id;});
+  navLinks.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+cur);});
+});
+
+// ---- SCROLL REVEAL ----
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ---- DRAG TO ROTATE BOARDS ----
+function addDragRotate(id) {
+  const el=document.getElementById(id);
+  if(!el)return;
+  let dragging=false,startX=0,startY=0,rotX=8,rotY=0;
+  el.addEventListener('mousedown',e=>{dragging=true;startX=e.clientX;startY=e.clientY;el.style.animation='none';});
+  window.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    rotY+=(e.clientX-startX)*0.5;rotX-=(e.clientY-startY)*0.5;
+    el.style.transform=`rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+    startX=e.clientX;startY=e.clientY;
+  });
+  window.addEventListener('mouseup',()=>{if(dragging){dragging=false;el.style.animation='';}});
+}
+addDragRotate('arduinoBoard');
+
+// ---- SENSOR TOGGLE ----
+function toggleSensor(el) {
+  const wasActive=el.classList.contains('active');
+  document.querySelectorAll('.sensor-card').forEach(c=>c.classList.remove('active'));
+  if(!wasActive)el.classList.add('active');
+}
+
+// ---- TYPING EFFECT ----
+const phrases=['Robots, Arduino & Cool Gadgets!','Sensors, WiFi & Smart Homes!','The Future is in Your Hands!','Build Amazing Things! 🛠️'];
+let pi=0,ci=0,deleting=false;
+const typeEl=document.getElementById('typeText');
+function typeStep(){
+  const cur=phrases[pi];
+  if(!deleting){
+    typeEl.textContent=cur.slice(0,++ci);
+    if(ci===cur.length){deleting=true;setTimeout(typeStep,2000);return;}
+  } else {
+    typeEl.textContent=cur.slice(0,--ci);
+    if(ci===0){deleting=false;pi=(pi+1)%phrases.length;}
+  }
+  setTimeout(typeStep,deleting?60:100);
+}
+typeStep();
+
+// ---- QUIZ ----
+const quizData=[
+  {q:"What is the 'brain' of an Arduino board?",opts:["The USB port","The Microcontroller chip","The LED","The Reset button"],ans:1,emoji:"🧠"},
+  {q:"What does ESP32 have that Arduino UNO doesn't?",opts:["More buttons","WiFi and Bluetooth","Bigger size","More colors"],ans:1,emoji:"📡"},
+  {q:"A PIR sensor detects what?",opts:["Temperature","Sound","Motion / Heat","Water"],ans:2,emoji:"👁️"},
+  {q:"What does IoT stand for?",opts:["Internet of Toys","Internet of Things","Inside of Tech","Interface of Tools"],ans:1,emoji:"🌐"},
+  {q:"Which sensor helps a robot avoid walls?",opts:["LDR (Light sensor)","Buzzer","Ultrasonic sensor","Moisture sensor"],ans:2,emoji:"📡"},
+  {q:"What language do computers understand?",opts:["Hindi and English","Only 0 and 1","Pictures only","Music notes"],ans:1,emoji:"🔢"}
+];
+let qi=0,score=0,answered=false;
+
+function renderQuestion(){
+  const q=quizData[qi];
+  document.getElementById('quizQ').textContent=q.q;
+  document.getElementById('qNum').textContent=(qi+1)+' of '+quizData.length;
+  document.getElementById('quizFeedback').className='quiz-feedback';
+  document.getElementById('quizFeedback').textContent='';
+  document.getElementById('nextBtn').style.display='none';
+  answered=false;
+  const optsEl=document.getElementById('quizOpts');
+  optsEl.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='quiz-opt';
+    btn.textContent=o;
+    btn.onclick=()=>checkAnswer(i,btn);
+    optsEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(i,btn){
+  if(answered)return;
+  answered=true;
+  const q=quizData[qi];
+  const allBtns=document.querySelectorAll('.quiz-opt');
+  allBtns[q.ans].classList.add('correct');
+  const fb=document.getElementById('quizFeedback');
+  if(i===q.ans){
+    score++;
+    btn.classList.add('correct');
+    fb.textContent=q.emoji+' Brilliant! That\'s correct! 🎉';
+    fb.style.color='var(--green)';
+    launchConfetti();
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent='😊 Not quite! The right answer is highlighted in green!';
+    fb.style.color='var(--pink)';
+  }
+  fb.classList.add('show');
+  document.getElementById('nextBtn').style.display=(qi<quizData.length-1)?'block':'none';
+  if(qi===quizData.length-1){
+    setTimeout(showFinalScore,1200);
+  }
+}
+
+function nextQuestion(){
+  qi++;
+  renderQuestion();
+}
+
+function showFinalScore(){
+  const optsEl=document.getElementById('quizOpts');
+  optsEl.innerHTML='';
+  document.getElementById('nextBtn').style.display='none';
+  const msgs=['Keep learning, you\'ll get it! 💪','Good start, keep exploring! 🌱','Well done, future inventor! 👏','Amazing, you\'re a tech star! 🌟','Outstanding! Are you secretly a robot? 🤖🚀'];
+  const msgIdx=Math.min(Math.floor(score/1.5),4);
+  document.getElementById('quizQ').innerHTML=`<span style="font-size:3rem">🏆</span><br>Score: ${score} / ${quizData.length}<br><span style="font-size:1rem;color:var(--text2)">${msgs[msgIdx]}</span>`;
+  document.getElementById('quizFeedback').className='quiz-feedback show';
+  document.getElementById('quizFeedback').innerHTML=`<button class="quiz-btn" onclick="restartQuiz()">Play Again! 🔄</button>`;
+  if(score>=4)launchConfetti(80);
+}
+
+function restartQuiz(){qi=0;score=0;renderQuestion();}
+renderQuestion();
+
+// ---- CONFETTI ----
+function launchConfetti(count=30){
+  const colors=['#FFD93D','#0BCEDB','#FF4D8B','#06D6A0','#FF6B35','#845EC2'];
+  for(let i=0;i<count;i++){
+    const c=document.createElement('div');
+    c.className='confetti-piece';
+    c.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.8}s;animation-duration:${2+Math.random()*2}s;transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4000);
+  }
+}
+
+// Launch confetti on load
+setTimeout(()=>launchConfetti(40),800);
+</script>
+</body>
+</html>
